@@ -1,12 +1,13 @@
 /**
  * "Foo" - a recursive descent parser (rdp) implementation
  */
-class Parser {
+export class Parser {
+  _string: string = "";
   /**
    * Parses a string into an AST
    */
-  parse(string) {
-    this._string = string;
+  parse(str: string) {
+    this._string = str;
 
     // parse recursively
     return this.Program();
@@ -42,5 +43,3 @@ class Parser {
     };
   }
 }
-
-module.exports = { Parser };

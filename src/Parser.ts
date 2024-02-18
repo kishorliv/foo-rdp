@@ -1,5 +1,5 @@
 import { Tokenizer } from "./Tokenizer";
-import { Token, TokenType } from "./types";
+import { AstNode, Token, TokenType } from "./types";
 
 /**
  * "Foo" - a recursive descent parser (rdp) implementation
@@ -37,7 +37,23 @@ export class Parser {
    *
    */
   Program() {
-    return { type: "Program", body: this.NumericLiteral() };
+    return { type: "Program", body: this.Literal() };
+  }
+
+  /**
+   * : NumericLiteral
+   * | StringLiteral
+   * ;
+   */
+  Literal() {
+    switch (this._lookahead?.type) {
+      case "NUMBER":
+        return this.NumericLiteral();
+      case "STRING":
+        return this.StringLiteral();
+    }
+
+    throw new SyntaxError(`Literal: unexpected literal production`);
   }
 
   /**
@@ -51,6 +67,22 @@ export class Parser {
     return {
       type: "NumericLiteral",
       value: Number(token.value),
+    };
+  }
+
+  /**
+   * StringLiteral
+   *    : STRING
+   *    ;
+   */
+  StringLiteral() {
+    const token = this._eat("STRING");
+
+    const valueWithoutQuotes = token.value.slice(1, -1);
+
+    return {
+      type: "StringLiteral",
+      value: valueWithoutQuotes,
     };
   }
 

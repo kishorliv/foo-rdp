@@ -16,7 +16,7 @@ export class Tokenizer {
 
     const str = this._string.slice(this._cursor);
 
-    // NUMBER
+    // NUMBERS
     const isCharNumber = (idx: number) => !Number.isNaN(Number(str[idx]));
     if (isCharNumber(0)) {
       let num: string = "";
@@ -31,7 +31,32 @@ export class Tokenizer {
       };
     }
 
+    // STRINGS
+    const isCharString = str[0] === `"` || str[0] === `'`;
+    if (isCharString) {
+      let s: string = "";
+
+      do {
+        s += str[this._cursor++];
+      } while (
+        str[this._cursor] !== `"` &&
+        str[this._cursor] !== `'` &&
+        !this.EOF()
+      );
+
+      s += this._cursor++; // skip the ending quotation
+
+      return {
+        type: "STRING",
+        value: s,
+      };
+    }
+
     return null;
+  }
+
+  EOF() {
+    return this._cursor === this._string.length;
   }
 
   hasMoreTokens(): boolean {

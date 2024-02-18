@@ -7,10 +7,12 @@ export interface Token {
 
 export type ProductionType = "Program" | "NumericLiteral" | "StringLiteral";
 
+export interface AstNodeBody {
+  type: ProductionType;
+  value: string | number;
+}
+
 export interface AstNode {
   type: ProductionType;
-  body: {
-    type: ProductionType;
-    value: string;
-  };
+  body: AstNodeBody;
 }

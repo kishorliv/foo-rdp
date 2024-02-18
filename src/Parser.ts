@@ -1,5 +1,5 @@
 import { Tokenizer } from "./Tokenizer";
-import { AstNode, Token, TokenType } from "./types";
+import { AstNode, AstNodeBody, Token, TokenType } from "./types";
 
 /**
  * "Foo" - a recursive descent parser (rdp) implementation
@@ -36,7 +36,7 @@ export class Parser {
    *    ;
    *
    */
-  Program() {
+  Program(): AstNode {
     return { type: "Program", body: this.Literal() };
   }
 
@@ -45,7 +45,7 @@ export class Parser {
    * | StringLiteral
    * ;
    */
-  Literal() {
+  Literal(): AstNodeBody {
     switch (this._lookahead?.type) {
       case "NUMBER":
         return this.NumericLiteral();
@@ -61,7 +61,7 @@ export class Parser {
    *    : NUMBER
    *    ;
    */
-  NumericLiteral() {
+  NumericLiteral(): AstNodeBody {
     const token = this._eat("NUMBER");
 
     return {
@@ -75,7 +75,7 @@ export class Parser {
    *    : STRING
    *    ;
    */
-  StringLiteral() {
+  StringLiteral(): AstNodeBody {
     const token = this._eat("STRING");
 
     const valueWithoutQuotes = token.value.slice(1, -1);

@@ -1,8 +1,9 @@
 import { Parser } from "../src/Parser";
+import { AstNode } from "../src/types";
 
 describe("Numeric literal", () => {
   it("should parse a numeric literal", () => {
-    const expected = {
+    const expected: AstNode = {
       type: "Program",
       body: {
         type: "NumericLiteral",

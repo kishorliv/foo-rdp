@@ -1,8 +1,9 @@
 import { Parser } from "../src/Parser";
+import { AstNode } from "../src/types";
 
 describe("String literal", () => {
   it("should parse a string literal denoted by single quotations", () => {
-    const expected = {
+    const expected: AstNode = {
       type: "Program",
       body: {
         type: "StringLiteral",
@@ -19,7 +20,7 @@ describe("String literal", () => {
   });
 
   it("should parse a string literal denoted by double quotations", () => {
-    const expected = {
+    const expected: AstNode = {
       type: "Program",
       body: {
         type: "StringLiteral",
